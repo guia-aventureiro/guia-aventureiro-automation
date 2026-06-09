@@ -7,6 +7,7 @@ Automação completa para testes de API e screenshots do aplicativo com **limpez
 ✅ **TESTES 100% PASSANDO - PRONTO PARA PRODUÇÃO**
 
 **Estatísticas Finais (Fevereiro 2026):**
+
 - 📊 **237 testes totais** em 16 suites
 - ✅ **223 testes passando** (94.1%)
 - ⏭️ **14 testes skipped** (5.9% - funcionalidades não implementadas)
@@ -15,6 +16,7 @@ Automação completa para testes de API e screenshots do aplicativo com **limpez
 - 🧹 **Limpeza automática:** 100% dos dados removidos após execução
 
 **Distribuição por funcionalidade:**
+
 - 🔐 Autenticação (auth.test.js): 16 testes
 - 📝 Roteiros (itinerary.test.js): 14 testes
 - 💰 Orçamento (budget.test.js): 17 testes
@@ -33,6 +35,7 @@ Automação completa para testes de API e screenshots do aplicativo com **limpez
 - 🔒 Segurança (security.test.js): 10 testes
 
 **Funcionalidades não implementadas (testes skipped):**
+
 - Gamificação (level/xp) - 1 teste
 - Preferências avançadas (theme/language/notifications) - 1 teste
 - Analytics enabled - 1 teste
@@ -44,12 +47,13 @@ Automação completa para testes de API e screenshots do aplicativo com **limpez
 - Modo offline (rotas não existem) - 1 teste
 
 **Arquivos de teste utilitários:**
+
 - `test-jest.js` - Utilitário de teste
 - `test-upgrade.js` - Testes de upgrade de planos
 - `test-monthly-limit.js` - Testes de limite mensal (movido do backend)
 - `test-subscription-limits.js` - Testes de limites de subscription (movido do backend)
 
-🔒 **Segurança mantida** - Ver [SECURITY_CHANGES.md](SECURITY_CHANGES.md)  
+🔒 **Segurança mantida** - Ver [SECURITY_CHANGES.md](SECURITY_CHANGES.md)
 🧹 **Limpeza automática** - 100% dos dados de teste removidos após execução
 
 ---
@@ -57,12 +61,14 @@ Automação completa para testes de API e screenshots do aplicativo com **limpez
 ## 🚀 Quick Start - Testes de API
 
 ### 1. Iniciar Backend em Modo Teste
+
 ```bash
 cd backend
 npm run dev  # Inicia com TEST_MODE=true
 ```
 
 ### 2. Rodar Testes
+
 ```bash
 cd automation
 npm install  # Primeira vez
@@ -70,12 +76,47 @@ npm test     # Roda todos os testes
 ```
 
 ### 3. Verificar Limpeza (Opcional)
+
 ```bash
 cd ../backend
 npm run test:cleanup  # Deve mostrar: ✅ BANCO LIMPO
 ```
 
 **Pronto!** Todos os testes devem passar ✅ e o banco fica limpo automaticamente!
+
+---
+
+## 📱 Fluxo Reproduzível - E2E Android
+
+Objetivo: rodar sempre com a mesma estrutura e só trocar parâmetros (API/dispositivo/app).
+
+### Comando padrão (build + install + smoke)
+
+```powershell
+npm run e2e:android:runner
+```
+
+### Comando rápido (sem rebuild/reinstall)
+
+```powershell
+npm run e2e:android:quick
+```
+
+### Com parâmetros explícitos (recomendado para CI e novos projetos)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\run-e2e-android.ps1 \
+  -ApiUrl "https://guia-aventureiro-api-new.onrender.com" \
+  -AdbSerial "192.168.0.6:45589" \
+  -AppPackage "com.guiaaventureiro.app" \
+  -SkipBuild -SkipInstall
+```
+
+O runner valida automaticamente:
+
+- conectividade da API (OPTIONS em /api/auth/signup)
+- conexão do dispositivo ADB
+- export de variáveis API_URL, ADB_SERIAL e ANDROID_APP_PACKAGE
 
 ---
 
@@ -97,6 +138,7 @@ npm run test:cleanup
 ```
 
 Saída esperada:
+
 ```
 📊 ESTATÍSTICAS DO BANCO DE DADOS
 👥 Usuários de teste: 0
@@ -128,10 +170,12 @@ npm run test:force-clean
 ### 1. Setup Inicial (Apenas Primeira Vez)
 
 **a) Instalar Android Studio**
+
 - https://developer.android.com/studio
 - Aceite todas as licenças
 
 **b) Configurar ANDROID_HOME**
+
 ```powershell
 # PowerShell como Administrador
 setx ANDROID_HOME "C:\Users\SEU_USUARIO\AppData\Local\Android\Sdk"
@@ -139,6 +183,7 @@ setx ANDROID_HOME "C:\Users\SEU_USUARIO\AppData\Local\Android\Sdk"
 ```
 
 **c) Criar Emulador**
+
 ```bash
 cd automation
 npm run setup  # Cria emulador Pixel 5
@@ -195,6 +240,7 @@ npm test -- --coverage
 ### Testes Implementados
 
 **✅ Autenticação (auth.test.js)**
+
 - Cadastro com dados válidos
 - Rejeição de email duplicado
 - Validação de email/senha
@@ -202,30 +248,35 @@ npm test -- --coverage
 - Renovação de tokens
 
 **✅ Roteiros (itinerary.test.js)**
+
 - CRUD completo de roteiros
 - Validações de campos
 - Permissões de acesso
 - Atualização e exclusão
 
 **✅ Orçamento (budget.test.js)**
+
 - Adicionar/atualizar gastos
 - Permissões (owner/colaborador)
 - Resumo de orçamento
 - Validações e segurança
 
 **✅ Upload de Fotos (photos.test.js)**
+
 - Upload simples e múltiplo
 - Validação de autenticação
 - Validação de tipos de arquivo
 - Limite de 10 fotos
 
 **✅ Explorar (explore.test.js)**
+
 - Listagem de roteiros públicos
 - Busca e filtros
 - Curtir/descurtir roteiros
 - Avaliações (1-5 estrelas)
 
 **✅ Conquistas/Gamificação (achievements.test.js)** 🆕
+
 - Listar conquistas do usuário
 - Estatísticas de XP e nível
 - Sistema de progressão (XP, levels)
@@ -234,6 +285,7 @@ npm test -- --coverage
 - Progresso de conquistas
 
 **✅ Avaliações (ratings.test.js)** 🆕
+
 - Criar avaliação com nota (1-5) e comentário
 - Atualizar e deletar avaliações
 - Cálculo de média de avaliações
@@ -242,6 +294,7 @@ npm test -- --coverage
 - Listagem de avaliações públicas
 
 **✅ Perfil de Usuário (profile.test.js)** 🆕
+
 - Obter perfil próprio e público
 - Atualizar nome, preferências, avatar
 - Alterar senha com validação
@@ -251,6 +304,7 @@ npm test -- --coverage
 - Validações de segurança (XSS, campos protegidos)
 
 **✅ Colaboradores (collaborators.test.js)** 🆕
+
 - Adicionar colaboradores (edit/view permissions)
 - Atualizar permissões
 - Remover colaboradores
@@ -260,6 +314,7 @@ npm test -- --coverage
 - Regras de negócio (não duplicar, não adicionar owner)
 
 **✅ Offline/Sincronização (offline.test.js)** 🆕
+
 - Adicionar ações à fila de sync
 - Processar fila de sincronização
 - Resolução de conflitos (last-write-wins)
@@ -270,6 +325,7 @@ npm test -- --coverage
 - Métricas de sincronização
 
 **✅ IA e Geração (ai.test.js)** 🆕
+
 - Gerar roteiro completo com IA
 - Sugerir atividades contextualizadas
 - Otimizar rotas por proximidade
@@ -280,6 +336,7 @@ npm test -- --coverage
 - Qualidade das respostas (idioma)
 
 **✅ Analytics (analytics.test.js)** 🆕
+
 - Registrar eventos de usuário
 - Dashboard de métricas (admin)
 - Analytics do usuário (stats, atividade recente)
@@ -293,6 +350,7 @@ npm test -- --coverage
 - Privacidade e anonimização
 
 **✅ Segurança (security.test.js)**
+
 - Rate limiting
 - Validação de tokens
 - Proteção contra ataques
@@ -315,32 +373,32 @@ describe('Minha Feature', () => {
 
   beforeAll(async () => {
     // Criar usuário de teste
-    const email = `test-${Date.now()}@test.com`;  // IMPORTANTE: @test.com
+    const email = `test-${Date.now()}@test.com`; // IMPORTANTE: @test.com
     const res = await axios.post(`${API_URL}/api/auth/signup`, {
       name: 'Test User',
       email,
       password: 'Senha@123',
-      acceptedTerms: true
+      acceptedTerms: true,
     });
-    
+
     authToken = res.data.accessToken;
     userId = res.data.user._id;
-    trackUser(userId);  // Rastrear para limpeza
+    trackUser(userId); // Rastrear para limpeza
   });
 
   afterAll(async () => {
     // Limpar dados deste teste
     await cleanupTestData({
       emailPatterns: [/@test\.com$/],
-      titlePatterns: [/Test/i]
+      titlePatterns: [/Test/i],
     });
   });
 
   test('✅ Deve fazer algo', async () => {
     const response = await axios.get(`${API_URL}/api/endpoint`, {
-      headers: { Authorization: `Bearer ${authToken}` }
+      headers: { Authorization: `Bearer ${authToken}` },
     });
-    
+
     expect(response.status).toBe(200);
   });
 
@@ -358,20 +416,23 @@ describe('Minha Feature', () => {
 ### 2. Convenções OBRIGATÓRIAS
 
 **Emails:** Sempre termine com `@test.com` ou `@example.com`
+
 ```javascript
-const email = `user-${Date.now()}@test.com`;  // ✅
-const email = `user@gmail.com`;                 // ❌
+const email = `user-${Date.now()}@test.com`; // ✅
+const email = `user@gmail.com`; // ❌
 ```
 
 **Títulos:** Sempre inclua "Test" ou "Teste"
+
 ```javascript
-title: 'Viagem Test - Rio'  // ✅
-title: 'Minha Viagem'       // ❌
+title: 'Viagem Test - Rio'; // ✅
+title: 'Minha Viagem'; // ❌
 ```
 
 **Rastreamento:** Use `trackUser()` e `trackItinerary()`
+
 ```javascript
-trackUser(userId);           // ✅
+trackUser(userId); // ✅
 trackItinerary(itineraryId); // ✅
 ```
 
@@ -392,6 +453,7 @@ cd ../backend && npm run test:cleanup
 ### Preparação (IMPORTANTE!)
 
 Antes de capturar, prepare o app com dados de exemplo:
+
 1. Login com conta de teste
 2. Crie 1-2 roteiros (use a IA)
 3. Adicione fotos aos roteiros
@@ -412,7 +474,7 @@ cd ../automation
 npm run screenshots
 ```
 
-**7 screenshots salvos em:** `automation/screenshots/android/`  
+**7 screenshots salvos em:** `automation/screenshots/android/`
 **Resolução:** 1080x2340 (Pixel 5)
 
 ---
@@ -420,16 +482,19 @@ npm run screenshots
 ## 🔧 Setup do Emulador
 
 ### Automático (Recomendado)
+
 ```bash
 npm run setup
 ```
 
 Cria automaticamente:
+
 - Emulador: Pixel 5
 - API Level: 33 (Android 13)
 - Nome: Pixel_5_API_33
 
 ### Manual (Android Studio)
+
 1. Tools → Device Manager
 2. Create Virtual Device
 3. Pixel 5 + API 33
@@ -479,8 +544,9 @@ automation/
 ## 🐛 Bugs Corrigidos
 
 ### Bug #1: Avaliações em Roteiros Públicos
-**Arquivo:** `backend/src/controllers/ratingController.js`  
-**Problema:** Apenas donos podiam avaliar roteiros  
+
+**Arquivo:** `backend/src/controllers/ratingController.js`
+**Problema:** Apenas donos podiam avaliar roteiros
 **Solução:** Adicionada verificação `isPublic`
 
 ```javascript
@@ -503,12 +569,14 @@ if (!isOwner && !isCollaborator && !isPublic) {
 Ver detalhes completos em **[SECURITY_CHANGES.md](SECURITY_CHANGES.md)**
 
 **Resumo:**
+
 - ✅ TEST_MODE apenas em desenvolvimento
 - ✅ Rate limiters ativos em produção
 - ✅ IP blocker ativo em produção
 - ✅ Endpoint `/test/clear-blocks` apenas com TEST_MODE
 
 **Produção (Render.com):**
+
 - Script `start` (sem TEST_MODE)
 - Todas as proteções ativas
 - Nenhum endpoint de teste disponível
@@ -518,6 +586,7 @@ Ver detalhes completos em **[SECURITY_CHANGES.md](SECURITY_CHANGES.md)**
 ## 🐛 Troubleshooting
 
 ### Emulador não inicia
+
 ```bash
 # Listar emuladores
 emulator -list-avds
@@ -527,6 +596,7 @@ emulator -avd Pixel_5_API_33
 ```
 
 ### Testes falhando
+
 ```bash
 # Verificar backend rodando
 cd ../backend
@@ -537,6 +607,7 @@ curl http://localhost:3000/health
 ```
 
 ### Screenshots vazios
+
 - Certifique-se que o app está rodando
 - Aguarde o app carregar completamente
 - Prepare dados de exemplo antes
@@ -546,6 +617,7 @@ curl http://localhost:3000/health
 ## 📊 Histórico de Mudanças
 
 ### v3.0.0 (26/01/2026) - Expansão Massiva de Testes 🆕
+
 - ✅ **7 novos arquivos de teste criados** (~240+ novos casos de teste):
   - 🏆 achievements.test.js - Conquistas e gamificação
   - ⭐ ratings.test.js - Sistema de avaliações
@@ -559,12 +631,14 @@ curl http://localhost:3000/health
 - 📝 Documentação completamente atualizada
 
 ### v2.0.0 (24/01/2026) - 100% Testes Passando
+
 - ✅ 16 testes corrigidos (roteiros, fotos, explorar)
 - 🐛 Bug de avaliações públicas corrigido
 - 📝 Dados de teste ajustados (title, destination, budget)
 - 🔀 Rotas corrigidas (/api/roteiros, ratings/:id)
 
 ### v1.0.0 (24/01/2026) - Release Inicial
+
 - 🚀 34 testes de API implementados
 - 🔒 TEST_MODE para ambiente de testes
 - 📸 Automação de screenshots Android
@@ -572,11 +646,12 @@ curl http://localhost:3000/health
 
 ---
 
-**Última atualização:** 26 de Janeiro de 2026  
-**Status:** ✅ 100% dos testes passando (18 arquivos, ~290+ casos)  
+**Última atualização:** 26 de Janeiro de 2026
+**Status:** ✅ 100% dos testes passando (18 arquivos, ~290+ casos)
 **Versão:** 3.0.0
 
 ### Screenshots em branco
+
 - Aumentar delay entre capturas
 - Verificar se app está totalmente carregado
 - Verificar permissões do emulador

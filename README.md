@@ -1,3 +1,5 @@
+<!-- markdownlint-disable -->
+
 # 🤖 Automação - Guia Aventureiro
 
 Scripts e ferramentas organizadas para gerenciamento de usuários, assinaturas, banco de dados e testes.
@@ -128,7 +130,58 @@ npm test subscriptions
 npm test -- --coverage
 ```
 
----
+### 📱 E2E Testing (Android Device)
+
+End-to-end regression tests run on a physical Android device via ADB.
+
+**Prerequisites:**
+
+- Android device connected via USB or Wi-Fi ADB
+- Backend API running locally (`npm run start` in `/backend`)
+- Device must not be in Expo dev-client mode (uses release APK)
+
+**Quick Start:**
+
+```bash
+# Full workflow: build APK → install → run tests
+.\scripts\run-e2e.ps1
+
+# Or individual steps:
+# 1. Build E2E APK (generates clean release without dev-client overlay)
+.\scripts\build-e2e-apk.ps1 -Install
+
+# 2. Run smoke tests (after APK is installed)
+npm run e2e:android
+```
+
+**Workflow Details:**
+
+The `run-e2e.ps1` script automates the complete testing flow:
+
+1. **Build**: Uses `expo prebuild` to generate native Android project, then Gradle to build release APK
+2. **Install**: Deploys APK to connected device (does not affect dev-client for development)
+3. **Test**: Runs Jest E2E suite that exercises login → dashboard → generate flow
+
+The generated APK is a **release build without Expo overlay**, so E2E tests can interact with actual app UI.
+Development work can continue normally with the dev-client in a separate terminal.
+
+**Individual Scripts:**
+
+- `scripts/build-e2e-apk.ps1` - Build release APK for testing
+- `scripts/run-e2e.ps1` - Complete workflow (build + install + test)
+- `npm run e2e:android` - Run tests (assumes APK already installed)
+
+**Device Connection:**
+
+```bash
+# USB connection (auto-detected)
+adb devices
+
+# Wi-Fi connection setup
+adb pair <device-ip>:<port> <pair-code>
+adb connect <device-ip>:<port>
+adb devices
+```
 
 ## 📖 Ajuda
 
