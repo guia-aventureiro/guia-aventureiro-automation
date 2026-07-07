@@ -12,12 +12,12 @@ const API_URL = process.env.API_URL || 'http://localhost:3000';
  */
 async function upgradeToPremium(token) {
   try {
-    // Confirmar upgrade diretamente (bypass do Stripe para testes)
+    // Ajuste de plano em modo de teste (TEST_MODE=true)
     const response = await axios.post(
-      `${API_URL}/api/subscriptions/confirm-upgrade`,
-      { 
+      `${API_URL}/api/subscriptions/test/force-plan`,
+      {
         targetPlan: 'premium',
-        billingCycle: 'monthly'
+        billingCycle: 'monthly',
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -29,22 +29,25 @@ async function upgradeToPremium(token) {
 }
 
 /**
- * Faz upgrade de um usuário para PRO (para testes)
+ * Compatibilidade legada: mantém assinatura antiga apontando para PREMIUM.
  */
 async function upgradeToPro(token) {
   try {
-    // Confirmar upgrade diretamente (bypass do Stripe para testes)
+    // Mantemos o nome para não quebrar testes antigos.
     const response = await axios.post(
-      `${API_URL}/api/subscriptions/confirm-upgrade`,
-      { 
-        targetPlan: 'pro',
-        billingCycle: 'monthly'
+      `${API_URL}/api/subscriptions/test/force-plan`,
+      {
+        targetPlan: 'premium',
+        billingCycle: 'monthly',
       },
       { headers: { Authorization: `Bearer ${token}` } }
     );
     return response.data;
   } catch (error) {
-    console.error('❌ Erro ao fazer upgrade para PRO:', error.response?.data || error.message);
+    console.error(
+      '❌ Erro ao aplicar alias legada para PREMIUM:',
+      error.response?.data || error.message
+    );
     throw error;
   }
 }
@@ -54,10 +57,9 @@ async function upgradeToPro(token) {
  */
 async function getSubscription(token) {
   try {
-    const response = await axios.get(
-      `${API_URL}/api/subscriptions/my-subscription`,
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
+    const response = await axios.get(`${API_URL}/api/subscriptions/my-subscription`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     return response.data;
   } catch (error) {
     console.error('❌ Erro ao obter subscription:', error.response?.data || error.message);
