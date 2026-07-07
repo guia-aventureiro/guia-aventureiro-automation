@@ -1,3 +1,5 @@
+<!-- markdownlint-disable -->
+
 # 🤖 Automação - Guia Aventureiro
 
 Automação completa para testes de API e screenshots do aplicativo com **limpeza automática de dados**.
